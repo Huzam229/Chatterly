@@ -1,24 +1,15 @@
 import useAuthUser from "../hooks/useAuthUser";
 import { Link, useLocation } from "react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { logout } from "../lib/api";
 import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
+import useLogout from "../hooks/useLogout";
 
 const NavBar = () => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const isChatPage = location.pathname?.startsWith("/chat");
 
-  const queryClient = useQueryClient();
-
-  const { mutate: logoutMutation } = useMutation({
-    mutationFn: logout,
-    onSuccess: () => {
-      queryClient.setQueryData(["authUser"], null); // clear cache
-      queryClient.invalidateQueries(["authUser"]); // optional
-    },
-  });
+  const { logoutMutation } = useLogout(); // custom hook
 
   const handleLogout = () => {
     logoutMutation();
