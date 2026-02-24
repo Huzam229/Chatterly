@@ -9,7 +9,7 @@ import { OnBoarding } from "./pages/OnBoarding";
 import { Toaster } from "react-hot-toast";
 import { PageLoader } from "./components/PageLoader";
 import useAuthUser from "./hooks/useAuthUser.js";
-import { Home } from "lucide-react";
+import Layout from "./components/Layout.jsx";
 const App = () => {
   //tanstack query
   const { isLoading, authUser } = useAuthUser();
@@ -20,13 +20,15 @@ const App = () => {
     return <PageLoader />;
   }
   return (
-    <div className="h-screen" data-theme="night">
+    <div className="h-screen" data-theme="forest">
       <Routes>
         <Route
           path="/"
           element={
             isAuthenticated && isOnboarding ? (
-              <HomePage />
+              <Layout showSideBar={true}>
+                <HomePage />
+              </Layout>
             ) : (
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )
