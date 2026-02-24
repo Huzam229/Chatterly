@@ -26,7 +26,10 @@ const ThemeSelector = () => {
                         ? "bg-primary/10 text-primary"
                         : "hover:bg-base-content/5"
                     }`}
-              onClick={() => setTheme(themeOpt.name)}
+              onClick={() => {
+                setTheme(themeOpt.name);
+                localStorage.setItem("theme", themeOpt.name);
+              }}
             >
               <PaletteIcon className="size-4" />
               <span className="font-medium">{themeOpt.name}</span>
