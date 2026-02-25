@@ -3,8 +3,8 @@ import Sidebar from "./Sidebar";
 
 const Layout = ({ children, showSideBar = false }) => {
   return (
-    <div className="min-h-screen ">
-      <div className="flex ">
+    <div className="min-h-screen">
+      <div className="flex">
         {showSideBar && <Sidebar />}
 
         <div className="flex-1 flex flex-col">

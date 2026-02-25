@@ -19,7 +19,7 @@ const ThemeSelector = () => {
         <div className="space-y-1">
           {THEMES.map((themeOpt) => (
             <button
-              key={theme.name}
+              key={themeOpt.name}
               className={`w-full px-4 py-3 rounded-xl flex items-center gap-3 
                     transition-colors ${
                       theme === themeOpt.name
