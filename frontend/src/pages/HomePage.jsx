@@ -19,6 +19,8 @@ export const HomePage = () => {
     queryFn: getUserFriends,
   });
 
+  console.log("Friend-List", friends);
+
   const {
     isLoading: loadingRecommendedUser = false,
     data: recommendedUser = [],
@@ -70,7 +72,7 @@ export const HomePage = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {friends.map((friend) => (
-              <FriendCard key={friend._id} friend={friends} />
+              <FriendCard key={friend._id} friend={friend} />
             ))}
           </div>
         )}
