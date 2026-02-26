@@ -128,7 +128,7 @@ export async function getFriendRequest(req, res) {
       status: "pending",
     }).populate(
       "sender",
-      "fullName profilePic nativelanguage learningLanguage",
+      "fullName profilePic nativeLanguage learningLanguage",
     );
     const acceptedRequest = await FriendRequest.find({
       recipient: req.user._id,

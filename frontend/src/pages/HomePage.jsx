@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import FriendCard from "../components/FriendCard";
 import NoFriendYet from "../components/NoFriendYet";
-import { LANGUAGE_TO_FLAG } from "../constants";
 import { capitialize, getLanguageFlag } from "../lib/utils";
 
 export const HomePage = () => {
@@ -56,7 +55,6 @@ export const HomePage = () => {
     const outgoingIds = new Set();
     if (outgoingFriendReq && outgoingFriendReq.length > 0) {
       outgoingFriendReq.forEach((req) => {
-        console.log(req);
         outgoingIds.add(req.recipient._id);
       });
     }

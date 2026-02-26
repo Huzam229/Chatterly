@@ -1,11 +1,15 @@
 import useAuthUser from "../hooks/useAuthUser";
 import { Link, useLocation } from "react-router";
 import { BellIcon, HomeIcon, ShipWheelIcon, UserIcon } from "lucide-react";
+import useFriendRequest from "../hooks/useFriendRequest";
 
 const Sidebar = () => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const currentPath = location.pathname;
+
+  const { userFriendRequest } = useFriendRequest();
+
   return (
     <aside className="w-64 bg-base-100 border-r border-base-300 hidden lg:flex flex-col h-screen sticky top-0">
       <div className="p-5 border-b border-base-300">
@@ -43,6 +47,9 @@ const Sidebar = () => {
         >
           <BellIcon className="size-5 text-base-content opacity-70" />
           Notifications
+          <span className="badge badge-primary ml-2">
+            {userFriendRequest.incomingRequest.length}
+          </span>
         </Link>
       </nav>
 
