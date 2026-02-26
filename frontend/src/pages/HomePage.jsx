@@ -16,6 +16,7 @@ import {
 import FriendCard from "../components/FriendCard";
 import NoFriendYet from "../components/NoFriendYet";
 import { LANGUAGE_TO_FLAG } from "../constants";
+import { capitialize, getLanguageFlag } from "../lib/utils";
 
 export const HomePage = () => {
   const queryClient = useQueryClient();
@@ -121,7 +122,8 @@ export const HomePage = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {recommendedUser.recommendedUser.map((users) => {
                 const hasRequestBeenSent = outgoingRequest.has(users._id);
-
+                const nativeFlag = getLanguageFlag(users.nativeLanguage);
+                const learningFlag = getLanguageFlag(users.learningLanguage);
                 return (
                   <div
                     key={users._id}
@@ -145,11 +147,23 @@ export const HomePage = () => {
                       {/* Languages with Flag */}
                       <div className="flex flex-wrap gap-1.5">
                         <span className="badge badge-secondary text-xs">
-                          {getLanguageFlag(users.nativeLanguage)}
+                          {nativeFlag && (
+                            <img
+                              src={nativeFlag}
+                              alt="flag"
+                              className="h-3 mr-1 inline-block"
+                            />
+                          )}
                           Native: {capitialize(users.nativeLanguage)}
                         </span>
                         <span className="badge badge-secondary text-xs">
-                          {getLanguageFlag(users.learningLanguage)}
+                          {learningFlag && (
+                            <img
+                              src={learningFlag}
+                              alt="flag"
+                              className="h-3 mr-1 inline-block"
+                            />
+                          )}{" "}
                           Learning: {capitialize(users.learningLanguage)}
                         </span>
                       </div>
@@ -192,20 +206,3 @@ export const HomePage = () => {
     </div>
   );
 };
-
-function getLanguageFlag(language) {
-  if (!language) return null;
-  const langLower = language.toLowerCase();
-  const countryCode = LANGUAGE_TO_FLAG[langLower];
-  if (countryCode) {
-    return (
-      <img
-        src={`http://flagcdn.com/24x18/${countryCode}.png`}
-        alt={`${langLower} flag`}
-        className="h-3 mr-1 inline-block"
-      />
-    );
-  }
-}
-
-const capitialize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
