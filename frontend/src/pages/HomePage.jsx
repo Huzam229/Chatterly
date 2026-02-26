@@ -20,6 +20,7 @@ import { LANGUAGE_TO_FLAG } from "../constants";
 export const HomePage = () => {
   const queryClient = useQueryClient();
   const [outgoingRequest, setOutgoingReguest] = useState(new Set());
+  const [sendingId, setSendingId] = useState(null);
   const { isLoading: loadingFriend = false, data: friends = [] } = useQuery({
     queryKey: ["friends"],
     queryFn: getUserFriends,
@@ -37,10 +38,16 @@ export const HomePage = () => {
     queryFn: outgoingFriendRequest,
   });
 
-  const { mutate: friendRequestMutation, isPending } = useMutation({
+  const { mutate: friendRequestMutation } = useMutation({
     mutationFn: sendFriendRequest,
+    onMutate: (userId) => {
+      setSendingId(userId);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["outgoingFriendRequest"] });
+    },
+    onSettled: () => {
+      setSendingId(null);
     },
   });
 
@@ -48,7 +55,8 @@ export const HomePage = () => {
     const outgoingIds = new Set();
     if (outgoingFriendReq && outgoingFriendReq.length > 0) {
       outgoingFriendReq.forEach((req) => {
-        outgoingIds.add(req.id);
+        console.log(req);
+        outgoingIds.add(req.recipient._id);
       });
     }
     setOutgoingReguest(outgoingIds);
@@ -159,7 +167,7 @@ export const HomePage = () => {
                           hasRequestBeenSent ? "btn-disabled" : "btn-primary"
                         }`}
                         onClick={() => friendRequestMutation(users._id)}
-                        disabled={hasRequestBeenSent || isPending}
+                        disabled={hasRequestBeenSent || sendingId === users._id}
                       >
                         {hasRequestBeenSent ? (
                           <>
