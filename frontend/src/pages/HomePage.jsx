@@ -16,6 +16,7 @@ import {
 import FriendCard from "../components/FriendCard";
 import NoFriendYet from "../components/NoFriendYet";
 import { capitialize, getLanguageFlag } from "../lib/utils";
+import toast from "react-hot-toast";
 
 export const HomePage = () => {
   const queryClient = useQueryClient();
@@ -48,6 +49,12 @@ export const HomePage = () => {
     },
     onSettled: () => {
       setSendingId(null);
+    },
+    onError: (error) => {
+      const message =
+        error.response?.data?.message || error.message || "Request failed";
+
+      toast.error(message);
     },
   });
 

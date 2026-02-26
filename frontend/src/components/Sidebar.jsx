@@ -47,9 +47,11 @@ const Sidebar = () => {
         >
           <BellIcon className="size-5 text-base-content opacity-70" />
           Notifications
-          <span className="badge badge-primary ml-2">
-            {userFriendRequest.incomingRequest.length}
-          </span>
+          {userFriendRequest?.incomingRequest?.length > 0 && (
+            <span className="badge badge-primary ml-2">
+              {userFriendRequest?.incomingRequest?.length}
+            </span>
+          )}
         </Link>
       </nav>
 
