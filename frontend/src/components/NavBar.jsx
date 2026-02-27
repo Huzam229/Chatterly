@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router";
 import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import useLogout from "../hooks/useLogout";
+import useFriendRequest from "../hooks/useFriendRequest";
 
 const NavBar = () => {
   const { authUser } = useAuthUser();
@@ -10,6 +11,7 @@ const NavBar = () => {
   const isChatPage = location.pathname?.startsWith("/chat");
 
   const { logoutMutation } = useLogout(); // custom hook
+  const { userFriendRequest } = useFriendRequest();
 
   const handleLogout = () => {
     logoutMutation();
@@ -30,9 +32,14 @@ const NavBar = () => {
               </Link>
             </div>
           )}
-          <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-3 relative sm:gap-4">
             <Link to="/notifications" className={"btn btn-ghost btn-circle"}>
               <BellIcon className="h-6 w-6 text-base-content opacity-70" />
+              {userFriendRequest?.incomingRequest?.length > 0 && (
+                <span className="badge badge-primary badge-sm absolute -right-1.5 top-1">
+                  {userFriendRequest?.incomingRequest?.length}
+                </span>
+              )}
             </Link>
           </div>
 
