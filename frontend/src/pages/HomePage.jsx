@@ -140,12 +140,12 @@ export const HomePage = () => {
                           <img src={users.profilePic} alt={users.fullName} />
                         </div>
                         <h3 className="font-semibold truncate">
-                          {users.fullName}
+                          {capitialize(users.fullName)}
                         </h3>
                         {users.location && (
                           <div className="flex items-center text-xs opacity-70 mt-1">
                             <MapPinIcon className="size-3 mr-1" />
-                            {users.location}
+                            {capitialize(users.location)}
                           </div>
                         )}
                       </div>

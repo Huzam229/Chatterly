@@ -1,6 +1,6 @@
 import useAuthUser from "../hooks/useAuthUser";
 import { Link, useLocation } from "react-router";
-import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
+import { BellIcon, HomeIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import useLogout from "../hooks/useLogout";
 import useFriendRequest from "../hooks/useFriendRequest";
@@ -32,6 +32,13 @@ const NavBar = () => {
               </Link>
             </div>
           )}
+
+          <div className="flex items-center gap-3 sm:gap-4  lg:hidden">
+            <Link to="/" className={"btn btn-ghost btn-circle"}>
+              <HomeIcon className="h-6 w-6 text-base-content opacity-70" />
+            </Link>
+          </div>
+
           <div className="flex items-center gap-3 relative sm:gap-4">
             <Link to="/notifications" className={"btn btn-ghost btn-circle"}>
               <BellIcon className="h-6 w-6 text-base-content opacity-70" />
