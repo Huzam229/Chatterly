@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { getLanguageFlag } from "../lib/utils";
+import { capitialize, getLanguageFlag } from "../lib/utils";
 
 const FriendCard = ({ friend }) => {
   const nativeFlag = getLanguageFlag(friend.nativeLanguage);
@@ -13,7 +13,9 @@ const FriendCard = ({ friend }) => {
           <div className="avatar size-12">
             <img src={friend.profilePic} alt={friend.fullName} />
           </div>
-          <h3 className="font-semibold truncate">{friend.fullName}</h3>
+          <h3 className="font-semibold truncate">
+            {capitialize(friend.fullName)}
+          </h3>
         </div>
 
         {/* Country Flag  */}
@@ -27,7 +29,7 @@ const FriendCard = ({ friend }) => {
                 className="h-3 mr-1 inline-block"
               />
             )}
-            Native: {friend.nativeLanguage}
+            Native: {capitialize(friend.nativeLanguage)}
           </span>
           <span className="badge badge-secondary text-xs">
             {learningFlag && (
@@ -37,7 +39,7 @@ const FriendCard = ({ friend }) => {
                 className="h-3 mr-1 inline-block"
               />
             )}{" "}
-            Learning: {friend.learningLanguage}
+            Learning: {capitialize(friend.learningLanguage)}
           </span>
         </div>
 
