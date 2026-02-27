@@ -14,7 +14,7 @@ export const NotificationPage = () => {
 
   const { userFriendRequest, isLoading } = useFriendRequest();
 
-  const { mutate: acceptFriendRequestMutation, isPending } = useMutation({
+  const { mutate: acceptFriendRequestMutation } = useMutation({
     mutationFn: acceptFriendRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["friendRequest"] });

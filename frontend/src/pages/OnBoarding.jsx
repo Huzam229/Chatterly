@@ -6,11 +6,13 @@ import { completeOnboarding } from "../lib/api";
 import {
   CameraIcon,
   LoaderIcon,
+  LogOutIcon,
   MapPinIcon,
   ShipWheelIcon,
   ShuffleIcon,
 } from "lucide-react";
 import { LANGUAGES } from "../constants";
+import useLogout from "../hooks/useLogout";
 
 export const OnBoarding = () => {
   const { authUser } = useAuthUser();
@@ -51,13 +53,27 @@ export const OnBoarding = () => {
     toast.success("Avatar changed successfully");
   };
 
+  const { logoutMutation } = useLogout(); // custom hook
+
+  const handleLogout = () => {
+    logoutMutation();
+  };
+
   return (
     <div className="min-h-screen bg-base-100 flex items-center justify-center p-4">
       <div className="card bg-base-200 w-full max-w-3xl shadow-xl">
         <div className="card-body p-6 sm:p-8">
-          <h1 className="text-2xl sm:text-3xl font-semibold text-center mb-6">
-            Complete Your Profile
-          </h1>
+          <div className="flex flex-row justify-between items-center relative">
+            <h1 className="text-2xl flex-1 sm:text-3xl font-semibold text-center mb-6 mr-1">
+              Complete Your Profile
+            </h1>
+            <button
+              className="btn btn-ghost btn-circle absolute -top-2 -right-6"
+              onClick={handleLogout}
+            >
+              <LogOutIcon className="h-6 w-6 text-base-content opacity-70" />
+            </button>
+          </div>
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Profile Pic Container */}
 
