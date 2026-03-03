@@ -30,7 +30,7 @@ export async function getMyFriends(req, res) {
       .select("friends")
       .populate(
         "friends",
-        "fullName profilePic nativeLanguage learningLanguage",
+        "fullName profilePic nativeLanguage learningLanguage bio",
       );
     res.status(200).json(user.friends);
   } catch (error) {
@@ -162,5 +162,25 @@ export async function getOutgoingFriendRequest(req, res) {
       error.message,
     );
     res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export async function removeFriend(req, res) {
+  try {
+    const userId = req.user._id;
+    const { id: friendId } = req.params;
+
+    await User.findByIdAndUpdate(userId, {
+      $pull: { friends: friendId },
+    });
+
+    await User.findByIdAndUpdate(friendId, {
+      $pull: { friends: userId },
+    });
+
+    res.status(200).json({ message: "Friend removed successfully" });
+  } catch (error) {
+    console.error("Error removing friend:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 }

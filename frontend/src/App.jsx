@@ -11,6 +11,7 @@ import { PageLoader } from "./components/PageLoader";
 import useAuthUser from "./hooks/useAuthUser.js";
 import Layout from "./components/Layout.jsx";
 import useThemeStore from "./store/useThemeStore.js";
+import FriendsPage from "./pages/FriendsPage.jsx";
 const App = () => {
   //tanstack query
   const { isLoading, authUser } = useAuthUser();
@@ -95,6 +96,18 @@ const App = () => {
               )
             ) : (
               <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/friends"
+          element={
+            isAuthenticated && isOnboarding ? (
+              <Layout showSideBar={true}>
+                <FriendsPage />
+              </Layout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )
           }
         />
