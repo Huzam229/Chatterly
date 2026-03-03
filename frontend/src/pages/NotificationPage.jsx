@@ -149,7 +149,10 @@ export const NotificationPage = () => {
             )}
             {incomingFriendRequest.length === 0 &&
               acceptedFriendRequest.length === 0 && (
-                <div className="card bg-base-200 p-6 text-center">
+                <div className="card bg-base-200 p-6 text-center flex justify-center items-center flex-col gap-1">
+                  <div className="size-16 rounded-full bg-base-300 flex justify-center items-center">
+                    <BellIcon className="size-8 text-base-content opacity-50" />
+                  </div>
                   <h3 className="font-semibold text-lg mb-2">
                     You're all caught up 🎉
                   </h3>
