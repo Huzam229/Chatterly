@@ -14,6 +14,7 @@ import {
 } from "stream-chat-react";
 import { StreamChat } from "stream-chat";
 import toast from "react-hot-toast";
+import ChatLoader from "../components/ChatLoader";
 
 export const ChatPage = () => {
   const { id: userId } = useParams();
@@ -31,9 +32,9 @@ export const ChatPage = () => {
   useEffect(() => {
     const initChat = async () => {
       if (!streamToken?.token || !authUser) return;
-
       try {
         console.log("Initializing the stream chat client....");
+        console.log(streamToken);
         const client = StreamChat.getInstance(STREAM_API_KEY);
         await client.connectUser(
           {
@@ -44,11 +45,10 @@ export const ChatPage = () => {
           streamToken.token,
         );
         // Create a Channel
-        const channelId = [authUser._id, userId.sort().join("-")];
+        const channelId = [authUser._id, userId].sort().join("-");
         // if I start the chat channelId : [myId, userId]
         // if you start the chat channelId : [yourId, myId]
-
-        const currChannel = client.channel("message", channelId, {
+        const currChannel = client.channel("messaging", channelId, {
           members: [authUser._id, userId],
         });
         await currChannel.watch();
@@ -61,9 +61,28 @@ export const ChatPage = () => {
         setLoading(false);
       }
     };
-  }, []);
+    initChat();
+  }, [streamToken, authUser, userId]);
+
+  console.log("Frontend API KEY:", STREAM_API_KEY);
+
+  if (loading || !chatClient || !channel) return <ChatLoader />;
 
   console.log(streamToken);
 
-  return <div>ChatPage</div>;
+  return (
+    <div className="h-[93vh]">
+      <Chat client={chatClient}>
+        <Channel channel={channel}>
+          <div className="w-full relative">
+            <Window>
+              <ChannelHeader />
+              <MessageList />
+              <MessageInput focus />
+            </Window>
+          </div>
+        </Channel>
+      </Chat>
+    </div>
+  );
 };
