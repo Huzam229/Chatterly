@@ -39,7 +39,7 @@ export const NotificationPage = () => {
           </div>
         ) : (
           <>
-            {incomingFriendRequest.length > 0 ? (
+            {incomingFriendRequest.length > 0 && (
               <section className="space-y-4">
                 <h2 className="text-xl font-semibold flex items-center gap-2">
                   <UserCheckIcon className="h-5 w-5 text-primary" />
@@ -103,16 +103,6 @@ export const NotificationPage = () => {
                   ))}
                 </div>
               </section>
-            ) : (
-              <div className="card bg-base-200 p-6 text-center">
-                <h3 className="font-semibold text-lg mb-2">
-                  You're all caught up 🎉
-                </h3>
-                <p className="text-base-content opacity-70">
-                  No new notifications right now. We'll let you know when
-                  something arrives.
-                </p>
-              </div>
             )}
             {/* ACCEPTED REQUESDT NOTIFICATION */}
             {acceptedFriendRequest.length > 0 && (
@@ -157,6 +147,18 @@ export const NotificationPage = () => {
                 </div>
               </section>
             )}
+            {incomingFriendRequest.length === 0 &&
+              acceptedFriendRequest.length === 0 && (
+                <div className="card bg-base-200 p-6 text-center">
+                  <h3 className="font-semibold text-lg mb-2">
+                    You're all caught up 🎉
+                  </h3>
+                  <p className="text-base-content opacity-70">
+                    No new notifications right now. We'll let you know when
+                    something arrives.
+                  </p>
+                </div>
+              )}
           </>
         )}
       </div>
