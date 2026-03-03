@@ -60,7 +60,6 @@ export const ChatPage = () => {
         setChannel(currChannel);
       } catch (error) {
         console.log("Error initializing chat: ", error);
-        toast.error("Could not connect to chat. Please try again");
       } finally {
         setLoading(false);
       }
@@ -71,7 +70,7 @@ export const ChatPage = () => {
   if (loading || !chatClient || !channel) return <ChatLoader />;
 
   return (
-    <div className="h-[93vh]">
+    <div className="h-full flex-1">
       <Chat client={chatClient}>
         <Channel channel={channel}>
           <div className="w-full relative">
@@ -81,6 +80,7 @@ export const ChatPage = () => {
               <MessageInput focus />
             </Window>
           </div>
+          <Thread />
         </Channel>
       </Chat>
     </div>

@@ -3,14 +3,12 @@ import Sidebar from "./Sidebar";
 
 const Layout = ({ children, showSideBar = false }) => {
   return (
-    <div className="min-h-screen">
-      <div className="flex">
+    <div className="min-h-screen flex flex-col">
+      <div className="flex flex-1">
         {showSideBar && <Sidebar />}
-
-        <div className="flex flex-col flex-auto">
+        <div className="flex flex-col flex-1">
           <NavBar />
-
-          <main className="flex flex-1 overflow-y-auto bg-base-100">
+          <main className="flex flex-1 overflow-hidden bg-base-100">
             {children}
           </main>
         </div>
