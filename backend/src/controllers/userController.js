@@ -178,6 +178,14 @@ export async function removeFriend(req, res) {
       $pull: { friends: userId },
     });
 
+    // Delete the friend request entry so they can send a new request later
+    await FriendRequest.findOneAndDelete({
+      $or: [
+        { sender: userId, recipient: friendId },
+        { sender: friendId, recipient: userId },
+      ],
+    });
+
     res.status(200).json({ message: "Friend removed successfully" });
   } catch (error) {
     console.error("Error removing friend:", error);
