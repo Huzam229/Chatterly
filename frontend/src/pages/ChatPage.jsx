@@ -22,7 +22,7 @@ export const ChatPage = () => {
   const [channel, setChannel] = useState(null);
   const [loading, setLoading] = useState(null);
   const { authUser } = useAuthUser();
-  const { data: streamToken } = useQuery({
+  const { data: tokenData } = useQuery({
     queryKey: ["streamToken"],
     queryFn: getStreamToken,
     enabled: !!authUser, // this will run only when authUser is available. This will convert anything into boolean either true or false
@@ -31,18 +31,22 @@ export const ChatPage = () => {
 
   useEffect(() => {
     const initChat = async () => {
-      if (!streamToken?.token || !authUser) return;
+      if (!tokenData?.token || !authUser) return;
       try {
         console.log("Initializing the stream chat client....");
-        console.log(streamToken);
         const client = StreamChat.getInstance(STREAM_API_KEY);
+        // 🔴 Disconnect if already connected (important)
+        if (client.userID) {
+          await client.disconnectUser();
+        }
+
         await client.connectUser(
           {
             id: authUser._id,
             name: authUser.fullName,
             image: authUser.profilePic,
           },
-          streamToken.token,
+          tokenData.token,
         );
         // Create a Channel
         const channelId = [authUser._id, userId].sort().join("-");
@@ -62,13 +66,9 @@ export const ChatPage = () => {
       }
     };
     initChat();
-  }, [streamToken, authUser, userId]);
-
-  console.log("Frontend API KEY:", STREAM_API_KEY);
+  }, [tokenData, authUser, userId]);
 
   if (loading || !chatClient || !channel) return <ChatLoader />;
-
-  console.log(streamToken);
 
   return (
     <div className="h-[93vh]">
