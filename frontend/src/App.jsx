@@ -23,7 +23,7 @@ const App = () => {
     return <PageLoader />;
   }
   return (
-    <div className="h-screen" data-theme={theme}>
+    <div className="h-screen" style={{ height: "100dvh" }} data-theme={theme}>
       <Routes>
         <Route
           path="/"
