@@ -112,8 +112,12 @@ export async function login(req, res) {
 }
 
 export async function logout(req, res) {
-  res.clearCookie("jwt");
-  res.status(200).json({ message: "Logout SuccessFull", success: true });
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+  res.status(200).json({ message: "Logout Successful", success: true });
 }
 
 export async function onboard(req, res) {
