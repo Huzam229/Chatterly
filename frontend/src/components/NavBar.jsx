@@ -18,39 +18,46 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="bg-base-200 border-b border-base-300 sticky top-0 z-30 h-16 flex items-center">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-end w-full gap-2">
-          {/* Logo Only if we in the chat page */}
+    <nav className="bg-base-200 border-b border-base-300 sticky top-0 z-30 h-16 flex items-center shrink-0">
+      <div className="w-full px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-end w-full gap-1 sm:gap-2">
+          {/* Logo on chat page */}
           {isChatPage && (
-            <div className="pl-5">
-              <Link to="/" className="flex items-center gap-2.5">
-                <ShipWheelIcon className="size-9 text-primary" />
-                <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
+            <div className="shrink-0 mr-auto">
+              <div className="flex items-center gap-1 sm:gap-2.5 cursor-pointer">
+                <ShipWheelIcon className="size-5 sm:size-9 text-primary shrink-0" />
+                <span className="text-base sm:text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
                   Chatterly
                 </span>
-              </Link>
+              </div>
             </div>
           )}
+
+          {/* Home button */}
           {isChatPage ? (
-            <div className="flex items-center gap-3 sm:gap-4 ml-auto ">
-              <Link to="/" className={"btn btn-ghost btn-circle"}>
-                <HomeIcon className="h-6 w-6 text-base-content opacity-70" />
-              </Link>
-            </div>
+            <Link to="/" className="btn btn-ghost btn-circle btn-sm sm:btn-md">
+              <HomeIcon className="h-5 w-5 text-base-content opacity-70" />
+            </Link>
           ) : (
-            <div className="flex items-center gap-3 sm:gap-4 lg:hidden">
-              <Link to="/" className={"btn btn-ghost btn-circle"}>
-                <HomeIcon className="h-6 w-6 text-base-content opacity-70" />
+            <div className="lg:hidden">
+              <Link
+                to="/"
+                className="btn btn-ghost btn-circle btn-sm sm:btn-md"
+              >
+                <HomeIcon className="h-5 w-5 text-base-content opacity-70" />
               </Link>
             </div>
           )}
 
-          <div className="flex items-center gap-3 relative sm:gap-4">
-            <Link to="/notifications" className={"btn btn-ghost btn-circle"}>
-              <BellIcon className="h-6 w-6 text-base-content opacity-70" />
+          {/* Notifications */}
+          <div className="relative">
+            <Link
+              to="/notifications"
+              className="btn btn-ghost btn-circle btn-sm sm:btn-md"
+            >
+              <BellIcon className="h-5 w-5 text-base-content opacity-70" />
               {userFriendRequest?.incomingRequest?.length > 0 && (
-                <span className="badge badge-primary badge-sm absolute -right-1.5 top-1">
+                <span className="badge badge-primary badge-sm absolute -right-1 top-0">
                   {userFriendRequest?.incomingRequest?.length}
                 </span>
               )}
@@ -59,20 +66,19 @@ const NavBar = () => {
 
           <ThemeSelector />
 
-          <div className="avatar">
-            <div className="w-9 rounded-full">
-              <img
-                src={authUser?.profilePic}
-                alt="User Avatar"
-                rel="noreferrer"
-              />
+          {/* Avatar */}
+          <div className="avatar shrink-0">
+            <div className="w-7 sm:w-9 rounded-full">
+              <img src={authUser?.profilePic} alt="User Avatar" />
             </div>
           </div>
 
-          {/* Logout Button */}
-
-          <button className="btn btn-ghost btn-circle" onClick={handleLogout}>
-            <LogOutIcon className="h-6 w-6 text-base-content opacity-70" />
+          {/* Logout */}
+          <button
+            className="btn btn-ghost btn-circle btn-sm sm:btn-md"
+            onClick={handleLogout}
+          >
+            <LogOutIcon className="h-5 w-5 text-base-content opacity-70" />
           </button>
         </div>
       </div>

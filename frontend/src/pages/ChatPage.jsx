@@ -81,10 +81,10 @@ export const ChatPage = () => {
   if (loading || !chatClient || !channel) return <ChatLoader />;
 
   return (
-    <div className="h-full flex-1">
+    <div className="h-full w-full flex flex-1 min-h-0">
       <Chat client={chatClient}>
         <Channel channel={channel}>
-          <div className="w-full relative">
+          <div className="w-full h-full relative flex flex-col min-h-0">
             <VideoCallButton handleVideoCall={handleVideoCall} />
             <Window>
               <ChannelHeader />
