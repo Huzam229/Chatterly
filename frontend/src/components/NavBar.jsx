@@ -10,14 +10,25 @@ import {
 import ThemeSelector from "./ThemeSelector";
 import useLogout from "../hooks/useLogout";
 import useFriendRequest from "../hooks/useFriendRequest";
+import { useEffect, useState } from "react";
 
-const NavBar = () => {
+const NavBar = ({ showSideBar }) => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
   const { authUser } = useAuthUser();
   const location = useLocation();
   const isChatPage = location.pathname?.startsWith("/chat");
 
   const { logoutMutation } = useLogout(); // custom hook
   const { userFriendRequest } = useFriendRequest();
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const showLogo = showSideBar || isMobile;
 
   const handleLogout = () => {
     logoutMutation();
@@ -28,18 +39,19 @@ const NavBar = () => {
       <div className="w-full px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-end w-full gap-1 sm:gap-2">
           {/* Logo on chat page */}
-
-          <div className="shrink-0 mr-auto">
-            <div className="flex items-center gap-1 sm:gap-2.5 cursor-pointer">
-              <ShipWheelIcon className="size-5 sm:size-9 text-primary shrink-0" />
-              <span className="text-base sm:text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
-                Chatterly
-              </span>
-            </div>
-          </div>
-
-          {/* Vertical divider */}
-          <div className="h-6 w-px bg-primary opacity-70 sm:hidden" />
+          {(showLogo || isChatPage) && (
+            <>
+              <div className="shrink-0 mr-auto">
+                <Link to="/" className="flex items-center gap-1 sm:gap-2.5">
+                  <ShipWheelIcon className="size-5 sm:size-9 text-primary shrink-0" />
+                  <span className="text-base sm:text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
+                    Chatterly
+                  </span>
+                </Link>
+              </div>
+              <div className="h-6 w-px bg-primary opacity-70 sm:hidden" />
+            </>
+          )}
 
           {/* Home button */}
           {isChatPage ? (
