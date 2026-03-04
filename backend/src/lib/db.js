@@ -1,11 +1,20 @@
-import mongoos from "mongoose";
+import mongoose from "mongoose";
+
+let isConnected = false;
 
 export const connectDB = async () => {
+  if (isConnected) return;
+
   try {
-    const conn = await mongoos.connect(process.env.MONGO_URI);
-    console.log(`MongoDN connected: ${conn.connection.host}`);
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 30000,
+      bufferCommands: false,
+    });
+    isConnected = true;
+    console.log(`MongoDB connected: ${conn.connection.host}`);
   } catch (error) {
-    console.log("Error in connection to MongoDB", error);
+    console.log("Error connecting to MongoDB", error);
     process.exit(1);
   }
 };
