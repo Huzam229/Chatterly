@@ -1,6 +1,12 @@
 import useAuthUser from "../hooks/useAuthUser";
 import { Link, useLocation } from "react-router";
-import { BellIcon, HomeIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
+import {
+  BellIcon,
+  HomeIcon,
+  LogOutIcon,
+  ShipWheelIcon,
+  UserIcon,
+} from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import useLogout from "../hooks/useLogout";
 import useFriendRequest from "../hooks/useFriendRequest";
@@ -22,16 +28,18 @@ const NavBar = () => {
       <div className="w-full px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-end w-full gap-1 sm:gap-2">
           {/* Logo on chat page */}
-          {isChatPage && (
-            <div className="shrink-0 mr-auto">
-              <div className="flex items-center gap-1 sm:gap-2.5 cursor-pointer">
-                <ShipWheelIcon className="size-5 sm:size-9 text-primary shrink-0" />
-                <span className="text-base sm:text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
-                  Chatterly
-                </span>
-              </div>
+
+          <div className="shrink-0 mr-auto">
+            <div className="flex items-center gap-1 sm:gap-2.5 cursor-pointer">
+              <ShipWheelIcon className="size-5 sm:size-9 text-primary shrink-0" />
+              <span className="text-base sm:text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
+                Chatterly
+              </span>
             </div>
-          )}
+          </div>
+
+          {/* Vertical divider */}
+          <div className="h-6 w-px bg-primary opacity-70 sm:hidden" />
 
           {/* Home button */}
           {isChatPage ? (
@@ -49,6 +57,15 @@ const NavBar = () => {
             </div>
           )}
 
+          <div className="lg:hidden">
+            <Link
+              to="/friends"
+              className="btn btn-ghost btn-circle btn-sm sm:btn-md"
+            >
+              <UserIcon className="h-5 w-5 text-base-content opacity-70" />
+            </Link>
+          </div>
+
           {/* Notifications */}
           <div className="relative">
             <Link
@@ -57,7 +74,8 @@ const NavBar = () => {
             >
               <BellIcon className="h-5 w-5 text-base-content opacity-70" />
               {userFriendRequest?.incomingRequest?.length > 0 && (
-                <span className="badge badge-primary badge-sm absolute -right-1 top-0">
+                <span className="badge badge-primary badge-sm absolute -right-3 -top-0.5 sm:-right-1 sm:top-1">
+                  {" "}
                   {userFriendRequest?.incomingRequest?.length}
                 </span>
               )}

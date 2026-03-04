@@ -22,28 +22,28 @@ export const NotificationPage = () => {
     },
   });
 
-  console.log(userFriendRequest);
-
   const incomingFriendRequest = userFriendRequest?.incomingRequest || [];
   const acceptedFriendRequest = userFriendRequest?.acceptedRequest || [];
 
   return (
-    <div className="container mx-auto max-w-4xl space-y-8">
-      <div className="p-4 sm:p-6 lg:p-8">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-6">
+    <div className="w-full overflow-y-auto">
+      <div className="container mx-auto max-w-4xl p-4 sm:p-6 lg:p-8 space-y-8">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
           Notifications
         </h1>
+
         {isLoading ? (
           <div className="flex justify-center py-12">
             <span className="loading loading-spinner loading-lg"></span>
           </div>
         ) : (
           <>
+            {/* INCOMING FRIEND REQUESTS */}
             {incomingFriendRequest.length > 0 && (
               <section className="space-y-4">
                 <h2 className="text-xl font-semibold flex items-center gap-2">
-                  <UserCheckIcon className="h-5 w-5 text-primary" />
-                  Friend Request
+                  <UserCheckIcon className="h-5 w-5 text-primary shrink-0" />
+                  Friend Requests
                   <span className="badge badge-primary ml-2">
                     {incomingFriendRequest.length}
                   </span>
@@ -55,42 +55,44 @@ export const NotificationPage = () => {
                       key={request._id}
                     >
                       <div className="card-body p-4">
-                        <div className="flex items-center justify-between gap-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                           <div className="flex items-center gap-3">
-                            <div className="avatar w-14 h-14 rounded-full bg-base-200">
+                            <div className="avatar w-12 h-12 rounded-full shrink-0">
                               <img
                                 src={request.sender.profilePic}
                                 alt={request.sender.fullName}
                               />
                             </div>
-                            <h3 className="font-semibold">
-                              {request.sender.fullName}
-                            </h3>
-                            <div className="flex flex-wrap gap-1.5 mt-1">
-                              <span className="badge badge-outline badge-md">
-                                Native:{" "}
-                                <img
-                                  src={getLanguageFlag(
-                                    request.sender.nativeLanguage,
-                                  )}
-                                  className="h-3 m-2 inline-block"
-                                />
-                                {capitialize(request.sender.nativeLanguage)}
-                              </span>
-                              <span className="badge badge-outline badge-md">
-                                Learning:{" "}
-                                <img
-                                  src={getLanguageFlag(
-                                    request.sender.learningLanguage,
-                                  )}
-                                  className="h-3 m-2 inline-block"
-                                />
-                                {capitialize(request.sender.learningLanguage)}
-                              </span>
+                            <div>
+                              <h3 className="font-semibold">
+                                {request.sender.fullName}
+                              </h3>
+                              <div className="flex flex-wrap gap-1.5 mt-1">
+                                <span className="badge badge-outline badge-sm">
+                                  Native:{" "}
+                                  <img
+                                    src={getLanguageFlag(
+                                      request.sender.nativeLanguage,
+                                    )}
+                                    className="h-3 mx-1 inline-block"
+                                  />
+                                  {capitialize(request.sender.nativeLanguage)}
+                                </span>
+                                <span className="badge badge-outline badge-sm">
+                                  Learning:{" "}
+                                  <img
+                                    src={getLanguageFlag(
+                                      request.sender.learningLanguage,
+                                    )}
+                                    className="h-3 mx-1 inline-block"
+                                  />
+                                  {capitialize(request.sender.learningLanguage)}
+                                </span>
+                              </div>
                             </div>
                           </div>
                           <button
-                            className="btn btn-primary btn-sm px-6"
+                            className="btn btn-primary btn-sm w-full sm:w-auto shrink-0"
                             onClick={() =>
                               acceptFriendRequestMutation(request._id)
                             }
@@ -104,12 +106,13 @@ export const NotificationPage = () => {
                 </div>
               </section>
             )}
-            {/* ACCEPTED REQUESDT NOTIFICATION */}
+
+            {/* ACCEPTED FRIEND REQUEST NOTIFICATIONS */}
             {acceptedFriendRequest.length > 0 && (
-              <section className="space-y-4 mt-5">
+              <section className="space-y-4">
                 <h2 className="text-xl font-semibold flex items-center gap-2">
-                  <BellIcon className="h-5 w-5 text-success" />
-                  New Connection
+                  <BellIcon className="h-5 w-5 text-success shrink-0" />
+                  New Connections
                 </h2>
                 <div className="space-y-3">
                   {acceptedFriendRequest.map((notification) => (
@@ -119,24 +122,25 @@ export const NotificationPage = () => {
                     >
                       <div className="card-body p-4">
                         <div className="flex items-center gap-3">
-                          <div className="avatar mt-1 size-10 rounded-full">
+                          <div className="avatar size-10 rounded-full shrink-0">
                             <img
                               src={notification.recipient.profilePic}
                               alt={notification.recipient.fullName}
                             />
                           </div>
-                          <div className="flex-1">
-                            <h3 className="font-semibold text-base-content">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-base-content truncate">
                               {notification.recipient.fullName}
                             </h3>
-                            <p className="text-sm my-1 mb-1"></p>
-                            Accepted your friend request
-                            <p className="text-xs flex items-center opacity-70">
-                              <ClockIcon className="h-3 w-3 mr-1" />
+                            <p className="text-sm opacity-70">
+                              Accepted your friend request
+                            </p>
+                            <p className="text-xs flex items-center opacity-70 mt-1">
+                              <ClockIcon className="h-3 w-3 mr-1 shrink-0" />
                               Recently
                             </p>
                           </div>
-                          <div className="badge badge-success">
+                          <div className="badge badge-success shrink-0">
                             <MessageSquareIcon className="h-3 w-3 mr-1" />
                             New Friend
                           </div>
@@ -147,6 +151,8 @@ export const NotificationPage = () => {
                 </div>
               </section>
             )}
+
+            {/* EMPTY STATE */}
             {incomingFriendRequest.length === 0 &&
               acceptedFriendRequest.length === 0 && (
                 <div className="card bg-base-200 p-6 text-center flex justify-center items-center flex-col gap-1">
